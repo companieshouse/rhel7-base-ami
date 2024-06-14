@@ -23,17 +23,6 @@ source "amazon-ebs" "builder" {
     volume_type           = "gp3"
   }
 
-  launch_block_device_mappings {
-    delete_on_termination = true
-    device_name           = "/dev/xvdb"
-    encrypted             = true
-    iops                  = var.data_volume_iops
-    kms_key_id            = var.kms_key_id
-    throughput            = var.data_volume_throughput
-    volume_size           = var.data_volume_size_gib
-    volume_type           = "gp3"
-  }
-
   security_group_filter {
     filters = {
       "group-name": "packer-builders-${var.aws_region}"
