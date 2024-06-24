@@ -2,10 +2,10 @@
 - hosts: all
   become: true
   pre_tasks:
-    # - name: Updating System Packages Before Ansible Run
-    #   yum:
-    #     name: '*'
-    #     state: latest
+    - name: Updating System Packages Before Ansible Run
+      yum:
+        name: '*'
+        state: latest
     - name: Set timezone to Europe/London
       community.general.timezone:
         name: Europe/London
@@ -21,8 +21,8 @@
   roles:
     - epel
   #   - ch_collections.base.pip
-    - ch_collections.base.os_package_control
-  #  # - ch_collections.base.rhel7_cis
+  #   - ch_collections.base.os_package_control
+  #   - ch_collections.base.rhel7_cis
   #   - ch_collections.base.clamav
   #   - cloudwatch-agent
   #   - ch_collections.base.cloudwatch_agent_helper
@@ -31,12 +31,29 @@
     
   tasks:
 
+  - name: install Packages
+    ansible.builtin.package:
+      name:   
+        - nfs-utils
+        - iscsi-initiator-utils
+        - device-mapper-multipath
+        - sg3_utils
+        - git
+        - https://s3.{{ region| default("eu-west-2") }}.amazonaws.com/amazon-ssm-{{ region| default("eu-west-2") }}/latest/linux_amd64/amazon-ssm-agent.rpm
+        - libselinux-python
+        - libsemanage-python
+        - policycoreutils-python
+        - screen
+        - logrotate
+        - chrony
+      state: present
+
   - command: "ls /etc/iscsi/"
     register: dir_out
 
   - debug: var={{item}}
     with_items: dir_out.stdout_lines
-
+    
     # - name: update iscsi config setting
     #   lineinfile: 
     #     path: /etc/iscsi/iscsid.conf
