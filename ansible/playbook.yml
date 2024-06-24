@@ -1,5 +1,5 @@
 ---
-- hosts: rhel7-base
+- hosts: all
   become: true
   collections:
     - ch-collections.security_banner
