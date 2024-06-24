@@ -2,10 +2,10 @@
 - hosts: all
   become: true
   pre_tasks:
-    - name: Updating System Packages Before Ansible Run
-      yum:
-        name: '*'
-        state: latest
+    # - name: Updating System Packages Before Ansible Run
+    #   yum:
+    #     name: '*'
+    #     state: latest
     - name: Set timezone to Europe/London
       community.general.timezone:
         name: Europe/London
