@@ -21,7 +21,7 @@
   roles:
     - epel
   #   - ch_collections.base.pip
-  #   - ch_collections.base.os_package_control
+    - ch_collections.base.os_package_control
   #  # - ch_collections.base.rhel7_cis
   #   - ch_collections.base.clamav
   #   - cloudwatch-agent
