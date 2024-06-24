@@ -2,7 +2,7 @@
 - hosts: all
   become: true
   vars_files:
-     - hosts_vars/rhel7-base.yml
+     - rhel7-base.yml
 
   pre_tasks:
     
