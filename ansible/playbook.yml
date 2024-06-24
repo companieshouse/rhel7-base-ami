@@ -1,8 +1,6 @@
 ---
 - hosts: all
   become: true
-  collections:
-    - ch-collections.security_banner
   pre_tasks:
     - name: Updating System Packages Before Ansible Run
       yum:

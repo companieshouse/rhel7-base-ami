@@ -26,7 +26,6 @@ clamav_mirror: http://clamav-mirror.sharedservices.aws.internal
 
 selinux_policies:
   - antivirus_can_scan_system
-  - nagios_run_sudo
 
 ## CloudWatch Agent Variables
 cwa_conf_json_file_content: "{{ lookup('file', 'files/cloudwatch-config.json') }}"
