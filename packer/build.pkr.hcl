@@ -7,7 +7,7 @@ build {
     groups = [ "${var.configuration_group}" ]
     playbook_file = "${var.playbook_file_path}"
     extra_arguments  = [
-      "-e", "aws_region=${var.aws_region},--extra-vars @/host_vars/rhel7-base.yml"
+      "-e", "aws_region=${var.aws_region},"
     ]
   }
 
