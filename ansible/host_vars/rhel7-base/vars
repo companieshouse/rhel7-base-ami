@@ -1,0 +1,33 @@
+---
+## Add any additional packages
+additional_packages:
+  - nfs-utils
+  - iscsi-initiator-utils
+  - device-mapper-multipath
+  - sg3_utils
+  - git
+  - https://s3.{{ region| default("eu-west-2") }}.amazonaws.com/amazon-ssm-{{ region| default("eu-west-2") }}/latest/linux_amd64/amazon-ssm-agent.rpm
+  - libselinux-python
+  - libsemanage-python
+  - policycoreutils-python
+  - screen
+  - logrotate
+  - chrony
+
+pip_install_packages:
+  - name: pip
+    state: latest
+  - name: ansible
+    version: "2.10.6"
+  - name: j2cli
+    umask: "0022"
+
+clamav_mirror: http://clamav-mirror.sharedservices.aws.internal
+
+selinux_policies:
+  - antivirus_can_scan_system
+
+## CloudWatch Agent Variables
+cwa_conf_json_file_content: "{{ lookup('file', 'files/cloudwatch-config.json') }}"
+
+

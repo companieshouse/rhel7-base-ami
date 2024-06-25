@@ -1,9 +1,6 @@
 ---
 - hosts: rhel7-base
   become: true
-  vars_files:
-     - rhel7-base.yml
-
   pre_tasks:
     
     - name: Updating System Packages Before Ansible Run
