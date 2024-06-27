@@ -1,6 +1,6 @@
-# ami-repository-template
+# RHEL9 BASE AMI
 
-Provides a base template for Packer and Ansible based AMI builds.
+Provides a base RHEL 7 AMI build.
 
 ### Ansible
 
