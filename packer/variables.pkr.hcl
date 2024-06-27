@@ -46,7 +46,7 @@ variable "aws_subnet_filter_name" {
 
 variable "configuration_group" {
   type        = string
-  default     = "unnamed"
+  default     = "rhel7-base"
   description = "The name of the group to which to add the instance for configuration purposes"
 }
 
@@ -58,6 +58,7 @@ variable "data_volume_iops" {
 
 variable "data_volume_size_gib" {
   type        = number
+  default     = 20
   description = "The EC2 instance data volume size in Gibibytes (GiB)"
 }
 
@@ -81,7 +82,7 @@ variable "force_deregister" {
 
 variable "kms_key_id" {
   type        = string
-  default     = "alias/packer-builders-eu-west-2-kms"
+  default     = "alias/packer-builders-kms"
   description = "The KMS key ID or alias to use when encrypting the AMI EBS volumes; defaults to the AWS managed key if empty"
 }
 
