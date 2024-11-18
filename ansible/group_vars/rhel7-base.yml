@@ -1,4 +1,10 @@
 ---
+## epel location vars
+epel_repo_url: "https://archives.fedoraproject.org/pub/archive/epel/7.9/x86_64/Packages/e/epel-release-7-12.noarch.rpm"
+epel_repo_gpg_key_url: "https://archives.fedoraproject.org/pub/archive/epel/RPM-GPG-KEY-EPEL"
+epel_repofile_path: "/etc/yum.repos.d/epel.repo"
+epel_repo_disable: false
+
 ## Add any additional packages
 additional_packages:
   - nfs-utils
