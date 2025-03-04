@@ -76,7 +76,7 @@
             oscap xccdf eval
             --profile xccdf_org.ssgproject.content_profile_cis_server_l1
             --results ~/OpenScap_Results_{{ datetime }}.xml
-            /usr/share/xml/scap/ssg/content/ssg-rhel9-ds.xml
+            /usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml
           register: oscap_scan
           failed_when: oscap_scan.rc == 1
 
