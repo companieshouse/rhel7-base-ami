@@ -138,3 +138,11 @@
           file:
             path: $HOME/lynis
             state: absent
+            
+        - name: copy pr-test file
+          ansible.builtin.copy:
+            src: pr-test
+            dest: /root/pr-test
+            owner: root
+            group: root
+            mode: '0600'
