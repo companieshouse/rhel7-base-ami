@@ -44,3 +44,4 @@ The template provides the following variables to control the Packer build and pr
 | ssh_username               | string | ec2-user                           | The username Packer will use when connecting with SSH.                                                                                                    |
 | version                    | string | -                                | Semantic version number for the AMI. Will be automatically appended to `ami_name_prefix` to tag the resulting AMI and snapshots.                          |
 
+
