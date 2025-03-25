@@ -2,6 +2,7 @@
 
 Provides a base RHEL 7 AMI build.
 
+
 ### Ansible
 
 All Ansible configuration resides in the `./ansible` directory. The Ansible configuration will be called during the provisioning step of the Packer build as defined in `./packer/build.pkr.hcl`.
