@@ -67,6 +67,7 @@
       command: sysctl -p
 
     ### Level 1 CIS Scan ###
+
     - name: Level 1 CIS - Set datetime variable
       set_fact:
         datetime: "{{ lookup('pipe', 'date +%Y%m%d_%H%M%S') }}"
@@ -100,3 +101,43 @@
         msg:
           - "Level 1 CIS Compliance Score: {{ cis_compliance_score.stdout }}%"
           - "Full report: lynx ~/OpenScap_Report_{{ datetime }}.html"
+
+    ## Run Lynis security scan ##
+
+    - name: Clone git rep
+      ansible.builtin.git:
+        repo: "https://github.com/CISOfy/lynis.git"
+        dest: $HOME/lynis
+        clone: true
+
+    - name: confirm lynis folder
+      find:
+        paths: $HOME
+        patterns: "lynis*"
+        recurse: true
+        file_type: directory
+      register: found_directories
+
+    - debug:
+        msg: "{{ [item.path] }}"
+      with_items: "{{ found_directories.files }}"
+
+    - name: Run scan and output to file
+      shell: ./lynis audit system > "$(hostname -s)_$(date +%d-%m-%Y).report"
+      args:
+        chdir: $HOME/lynis
+
+    - name: Print out report
+      shell: cat "$(hostname -s)_$(date +%d-%m-%Y).report"
+      args:
+        chdir: $HOME/lynis
+      register: lynis_report
+
+    - debug:
+        msg: "{{ [item] }} "
+      with_items: "{{ lynis_report.stdout }}"
+
+    - name: Remove lynis folder
+      file:
+        path: $HOME/lynis
+        state: absent
