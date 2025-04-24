@@ -1,4 +1,8 @@
 ---
+- name: Gather the package facts
+  package_facts:
+    manager: auto
+
 ## Ensure the Default Umask is Set Correctly
 - name: XCCDF Value var_accounts_user_umask # promote to variable
   set_fact:
