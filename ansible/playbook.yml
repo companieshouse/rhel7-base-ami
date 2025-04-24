@@ -20,6 +20,11 @@
     - ch_collections.base.cloudwatch_agent_helper
     - ch_collections.base.auditd
     - ch_collections.security_banner.banner
+    - firewalld
+    - journald
+    - password_policy
+    - session_timeout
+    - umask
 
   tasks:
     - name: update iscsi config setting
