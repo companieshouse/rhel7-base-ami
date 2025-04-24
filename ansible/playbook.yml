@@ -22,7 +22,6 @@
     - ch_collections.security_banner.banner
     - firewalld
     - journald
-    - password_policy
     - session_timeout
     - umask
 
