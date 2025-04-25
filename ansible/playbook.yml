@@ -16,6 +16,12 @@
     - ch_collections.base.os_package_control
     - ch_collections.base.rhel7_cis
     - ch_collections.base.clamav
+    - core_dumps
+    - ipv6
+    - nfs
+    - postfix
+    - rsync
+    - rsyslog
     - disable_mounting
     - ssh
     - ptrace

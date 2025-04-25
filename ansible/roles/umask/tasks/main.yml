@@ -7,8 +7,6 @@
 - name: XCCDF Value var_accounts_user_umask # promote to variable
   set_fact:
     var_accounts_user_umask: !!str 027
-  tags:
-    - always
 
 - name: Check if umask in /etc/bashrc is already set
   ansible.builtin.lineinfile:
