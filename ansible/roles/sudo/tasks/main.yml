@@ -17,8 +17,6 @@
 - name: XCCDF Value var_sudo_logfile # promote to variable
   set_fact:
     var_sudo_logfile: !!str /var/log/sudo.log
-  tags:
-    - always
 
 - name: Ensure logfile is enabled with the appropriate value in /etc/sudoers
   lineinfile:
@@ -41,45 +39,43 @@
 
 ## Ensure Users Re-Authenticate for Privilege Escalation - sudo
 
-- name: Find /etc/sudoers.d/ files
-  ansible.builtin.find:
-    paths:
-    - /etc/sudoers.d/
-  register: sudoers
+# - name: Find /etc/sudoers.d/ files
+#   ansible.builtin.find:
+#     paths:
+#     - /etc/sudoers.d/
+#   register: sudoers
 
-- name: Remove lines containing NOPASSWD from sudoers files
-  ansible.builtin.replace:
-    regexp: (^(?!#).*[\s]+NOPASSWD[\s]*\:.*$)
-    replace: '# \g<1>'
-    path: '{{ item.path }}'
-    validate: /usr/sbin/visudo -cf %s
-  with_items:
-  - path: /etc/sudoers
-  - '{{ sudoers.files }}'
+# - name: Remove lines containing NOPASSWD from sudoers files
+#   ansible.builtin.replace:
+#     regexp: (^(?!#).*[\s]+NOPASSWD[\s]*\:.*$)
+#     replace: '# \g<1>'
+#     path: '{{ item.path }}'
+#     validate: /usr/sbin/visudo -cf %s
+#   with_items:
+#   - path: /etc/sudoers
+#   - '{{ sudoers.files }}'
 
-- name: Find /etc/sudoers.d/ files
-  ansible.builtin.find:
-    paths:
-    - /etc/sudoers.d/
-  register: sudoers
+# - name: Find /etc/sudoers.d/ files
+#   ansible.builtin.find:
+#     paths:
+#     - /etc/sudoers.d/
+#   register: sudoers
 
-- name: Remove lines containing !authenticate from sudoers files
-  ansible.builtin.replace:
-    regexp: (^(?!#).*[\s]+\!authenticate.*$)
-    replace: '# \g<1>'
-    path: '{{ item.path }}'
-    validate: /usr/sbin/visudo -cf %s
-  with_items:
-  - path: /etc/sudoers
-  - '{{ sudoers.files }}'
+# - name: Remove lines containing !authenticate from sudoers files
+#   ansible.builtin.replace:
+#     regexp: (^(?!#).*[\s]+\!authenticate.*$)
+#     replace: '# \g<1>'
+#     path: '{{ item.path }}'
+#     validate: /usr/sbin/visudo -cf %s
+#   with_items:
+#   - path: /etc/sudoers
+#   - '{{ sudoers.files }}'
 
 ## Require Re-Authentication When Using the sudo Command
 
 - name: XCCDF Value var_sudo_timestamp_timeout # promote to variable
   set_fact:
     var_sudo_timestamp_timeout: !!str 15
-  tags:
-    - always
 
 - name: Require Re-Authentication When Using the sudo Command - Find /etc/sudoers.d/*
     files containing 'Defaults timestamp_timeout'

@@ -1,0 +1,68 @@
+## Ensure PAM Enforces Password Requirements - Prevent the Use of Dictionary Words
+
+- name: Gather the package facts
+  package_facts:
+    manager: auto
+- name: XCCDF Value var_password_pam_dictcheck # promote to variable
+  set_fact:
+    var_password_pam_dictcheck: !!str 1
+
+- name: Ensure PAM Enforces Password Requirements - Prevent the Use of Dictionary
+    Words - Ensure PAM variable dictcheck is set accordingly
+  ansible.builtin.lineinfile:
+    create: true
+    dest: /etc/security/pwquality.conf
+    regexp: ^#?\s*dictcheck
+    line: dictcheck = {{ var_password_pam_dictcheck }}
+  when: '"pam" in ansible_facts.packages'
+
+## Ensure PAM Enforces Password Requirements - Minimum Different Characters
+
+- name: Gather the package facts
+  package_facts:
+    manager: auto
+- name: XCCDF Value var_password_pam_difok # promote to variable
+  set_fact:
+    var_password_pam_difok: !!str 2
+
+- name: Ensure PAM Enforces Password Requirements - Minimum Different Characters -
+    Ensure PAM variable difok is set accordingly
+  ansible.builtin.lineinfile:
+    create: true
+    dest: /etc/security/pwquality.conf
+    regexp: ^#?\s*difok
+    line: difok = {{ var_password_pam_difok }}
+  when: '"pam" in ansible_facts.packages'
+
+## Ensure PAM Enforces Password Requirements - Enforce for root User
+
+- name: Gather the package facts
+  package_facts:
+    manager: auto
+
+- name: Ensure PAM Enforces Password Requirements - Enforce for root User
+  lineinfile:
+    path: /etc/security/pwquality.conf
+    create: true
+    regexp: ''
+    line: enforce_for_root
+    state: present
+  when: '"pam" in ansible_facts.packages'
+
+## Set Password Maximum Consecutive Repeating Characters
+
+- name: Gather the package facts
+  package_facts:
+    manager: auto
+- name: XCCDF Value var_password_pam_maxrepeat # promote to variable
+  set_fact:
+    var_password_pam_maxrepeat: !!str 3
+
+- name: Set Password Maximum Consecutive Repeating Characters - Ensure PAM variable
+    maxrepeat is set accordingly
+  ansible.builtin.lineinfile:
+    create: true
+    dest: /etc/security/pwquality.conf
+    regexp: ^#?\s*maxrepeat
+    line: maxrepeat = {{ var_password_pam_maxrepeat }}
+  when: '"pam" in ansible_facts.packages'
