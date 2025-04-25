@@ -18,9 +18,6 @@
 
 ## Ensure PAM Enforces Password Requirements - Minimum Different Characters
 
-- name: Gather the package facts
-  package_facts:
-    manager: auto
 - name: XCCDF Value var_password_pam_difok # promote to variable
   set_fact:
     var_password_pam_difok: !!str 2
@@ -34,26 +31,8 @@
     line: difok = {{ var_password_pam_difok }}
   when: '"pam" in ansible_facts.packages'
 
-## Ensure PAM Enforces Password Requirements - Enforce for root User
-
-- name: Gather the package facts
-  package_facts:
-    manager: auto
-
-- name: Ensure PAM Enforces Password Requirements - Enforce for root User
-  lineinfile:
-    path: /etc/security/pwquality.conf
-    create: true
-    regexp: ''
-    line: enforce_for_root
-    state: present
-  when: '"pam" in ansible_facts.packages'
-
 ## Set Password Maximum Consecutive Repeating Characters
 
-- name: Gather the package facts
-  package_facts:
-    manager: auto
 - name: XCCDF Value var_password_pam_maxrepeat # promote to variable
   set_fact:
     var_password_pam_maxrepeat: !!str 3
@@ -65,4 +44,19 @@
     dest: /etc/security/pwquality.conf
     regexp: ^#?\s*maxrepeat
     line: maxrepeat = {{ var_password_pam_maxrepeat }}
+  when: '"pam" in ansible_facts.packages'
+
+## Ensure PAM Enforces Password Requirements - Minimum Different Categories
+
+- name: XCCDF Value var_password_pam_minclass # promote to variable
+  set_fact:
+    var_password_pam_minclass: !!str 4
+
+- name: Ensure PAM Enforces Password Requirements - Minimum Different Categories -
+    Ensure PAM variable minclass is set accordingly
+  ansible.builtin.lineinfile:
+    create: true
+    dest: /etc/security/pwquality.conf
+    regexp: ^#?\s*minclass
+    line: minclass = {{ var_password_pam_minclass }}
   when: '"pam" in ansible_facts.packages'
