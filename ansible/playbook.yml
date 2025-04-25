@@ -16,6 +16,9 @@
     - ch_collections.base.os_package_control
     - ch_collections.base.rhel7_cis
     - ch_collections.base.clamav
+    - disable_mounting
+    - ssh
+    - ptrace
     - firewalld
     - motd
     - sudo

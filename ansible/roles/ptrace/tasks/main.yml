@@ -1,0 +1,30 @@
+## Restrict usage of ptrace to descendant processes
+
+- name: List /etc/sysctl.d/*.conf files
+  find:
+    paths:
+    - /etc/sysctl.d/
+    - /run/sysctl.d/
+    - /usr/local/lib/sysctl.d/
+    contains: ^[\s]*kernel.yama.ptrace_scope.*$
+    patterns: '*.conf'
+    file_type: any
+  register: find_sysctl_d
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Comment out any occurrences of kernel.yama.ptrace_scope from config files
+  replace:
+    path: '{{ item.path }}'
+    regexp: ^[\s]*kernel.yama.ptrace_scope
+    replace: '#kernel.yama.ptrace_scope'
+  loop: '{{ find_sysctl_d.files }}'
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Ensure sysctl kernel.yama.ptrace_scope is set to 1
+  sysctl:
+    name: kernel.yama.ptrace_scope
+    value: '1'
+    sysctl_file: /etc/sysctl.conf
+    state: present
+    reload: true
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]

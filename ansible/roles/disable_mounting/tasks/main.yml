@@ -1,0 +1,107 @@
+## Disable Mounting of cramfs
+
+- name: Ensure kernel module 'cramfs' is disabled
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/cramfs.conf
+    regexp: install\s+cramfs
+    line: install cramfs /bin/false
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Ensure kernel module 'cramfs' is blacklisted
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/cramfs.conf
+    regexp: ^blacklist cramfs$
+    line: blacklist cramfs
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Disable Mounting of freevxfs
+
+- name: Ensure kernel module 'freevxfs' is disabled
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/freevxfs.conf
+    regexp: install\s+freevxfs
+    line: install freevxfs /bin/false
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Ensure kernel module 'freevxfs' is blacklisted
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/freevxfs.conf
+    regexp: ^blacklist freevxfs$
+    line: blacklist freevxfs
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Disable Mounting of hfs
+
+- name: Ensure kernel module 'hfs' is disabled
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/hfs.conf
+    regexp: install\s+hfs
+    line: install hfs /bin/false
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Ensure kernel module 'hfs' is blacklisted
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/hfs.conf
+    regexp: ^blacklist hfs$
+    line: blacklist hfs
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Disable Mounting of hfsplus
+
+- name: Ensure kernel module 'hfsplus' is disabled
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/hfsplus.conf
+    regexp: install\s+hfsplus
+    line: install hfsplus /bin/false
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Ensure kernel module 'hfsplus' is blacklisted
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/hfsplus.conf
+    regexp: ^blacklist hfsplus$
+    line: blacklist hfsplus
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Disable Mounting of jffs2
+
+- name: Ensure kernel module 'jffs2' is disabled
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/jffs2.conf
+    regexp: install\s+jffs2
+    line: install jffs2 /bin/false
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Ensure kernel module 'jffs2' is blacklisted
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/jffs2.conf
+    regexp: ^blacklist jffs2$
+    line: blacklist jffs2
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Disable Modprobe Loading of USB Storage Driver
+
+- name: Ensure kernel module 'usb-storage' is disabled
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/usb-storage.conf
+    regexp: install\s+usb-storage
+    line: install usb-storage /bin/false
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Ensure kernel module 'usb-storage' is blacklisted
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/usb-storage.conf
+    regexp: ^blacklist usb-storage$
+    line: blacklist usb-storage
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
