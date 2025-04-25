@@ -28,7 +28,6 @@
     - firewalld
     - motd
     - sudo
-    - password_policy
     - cloudwatch-agent
     - ch_collections.base.cloudwatch_agent_helper
     - ch_collections.base.auditd
