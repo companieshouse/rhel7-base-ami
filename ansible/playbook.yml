@@ -18,7 +18,6 @@
     - ch_collections.base.clamav
     - core_dumps
     - ipv6
-    - nfs
     - postfix
     - rsync
     - rsyslog
@@ -28,6 +27,7 @@
     - firewalld
     - motd
     - sudo
+    - password_policy
     - cloudwatch-agent
     - ch_collections.base.cloudwatch_agent_helper
     - ch_collections.base.auditd
