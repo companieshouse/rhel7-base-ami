@@ -26,7 +26,6 @@
     - umask
     - session_timeout
     - password_policy
-    - sudo
     - ssh
     - ipv6
     - firewalld
@@ -36,6 +35,7 @@
     - rsyslog
     - motd
     - rsync
+    - sudo
 
   tasks:
     - name: update iscsi config setting
