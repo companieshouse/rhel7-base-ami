@@ -110,6 +110,7 @@
   with_items:
   - path: /etc/sudoers
   - '{{ sudoers.files }}'
+  become: true
 
 - name: Remove lines containing !authenticate from sudoers files
   ansible.builtin.replace:
@@ -120,3 +121,4 @@
   with_items:
   - path: /etc/sudoers
   - '{{ sudoers.files }}'
+  become: true
