@@ -35,6 +35,7 @@
     - journald
     - rsyslog
     - motd
+    - rsync
 
   tasks:
     - name: update iscsi config setting
