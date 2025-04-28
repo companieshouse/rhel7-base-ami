@@ -22,19 +22,19 @@
     - ch_collections.security_banner.banner
     - disable_mounting
     - core_dumps
-    - password_policy
+    - ptrace
     - umask
     - session_timeout
+    - password_policy
     - sudo
     - ssh
     - ipv6
+    - firewalld
+    - nfs
+    - postfix
     - journald
     - rsyslog
-    - firewalld
-    - postfix
     - motd
-    - ptrace
-    - nfs
 
   tasks:
     - name: update iscsi config setting
