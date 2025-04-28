@@ -28,6 +28,7 @@
     - sudo
     - ssh
     - ipv6
+    - journald
     - rsyslog
     - firewalld
     - postfix
