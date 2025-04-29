@@ -28,7 +28,6 @@
     - password_policy
     - ssh
     - ipv6
-    - firewalld
     - nfs
     - postfix
     - journald
