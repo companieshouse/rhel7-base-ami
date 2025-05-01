@@ -26,6 +26,7 @@
     - umask
     - session_timeout
     - password_policy
+    - sudo
     - ssh
     - ipv6
     - nfs
