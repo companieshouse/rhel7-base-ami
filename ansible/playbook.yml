@@ -79,6 +79,11 @@
 
     - name: Update Kernel Parameters
       command: sysctl -p
+    
+    - name: Reload SSH after SSH configuration is updated
+      ansible.builtin.systemd:
+        name: sshd
+        state: reloaded
 
     ### Level 1 CIS Scan ###
 

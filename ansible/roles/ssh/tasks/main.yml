@@ -297,3 +297,15 @@
       insertbefore: BOF
       validate: /usr/sbin/sshd -t -f %s
   when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+
+## Limit Users' SSH Access
+
+- name: Ensure AllowUsers is set to ec2-user and ssm-user in sshd_config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^AllowUsers'
+    line: 'AllowUsers ec2-user ssm-user'
+    insertafter: '#MaxSessions 10'
+    state: present
+    validate: /usr/sbin/sshd -t -f %s
