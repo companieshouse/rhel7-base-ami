@@ -24,7 +24,6 @@
     - ptrace
     - umask
     - session_timeout
-    - password_policy
     - sudo
     - ssh
     - ipv6
@@ -33,6 +32,7 @@
     - journald
     - rsyslog
     - disable_mounting
+    - password_policy
     - motd
 
   tasks:
