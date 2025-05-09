@@ -1,6 +1,0 @@
-## Uninstall rsync Package
-
-- name: Ensure rsync is removed
-  package:
-    name: rsync
-    state: absent

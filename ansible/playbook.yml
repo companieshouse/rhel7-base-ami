@@ -21,7 +21,6 @@
     - ch_collections.base.auditd
     - ch_collections.security_banner.banner
     - core_dumps
-    - disable_mounting
     - ptrace
     - umask
     - session_timeout
@@ -34,6 +33,7 @@
     - journald
     - rsyslog
     - motd
+    - disable_mounting
 
   tasks:
     - name: update iscsi config setting
