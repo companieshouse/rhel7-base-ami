@@ -21,9 +21,11 @@
     - ch_collections.base.auditd
     - ch_collections.security_banner.banner
     - core_dumps
+    - disable_mounting
     - ptrace
     - umask
     - session_timeout
+    - password_policy
     - sudo
     - ssh
     - ipv6
@@ -31,8 +33,6 @@
     - postfix
     - journald
     - rsyslog
-    - disable_mounting
-    - password_policy
     - motd
 
   tasks:

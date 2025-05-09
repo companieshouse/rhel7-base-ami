@@ -1772,10 +1772,11 @@
   when:
   - '"pam" in ansible_facts.packages'
   - not result_authselect_present.stat.exists
-
 - name: XCCDF Value var_accounts_passwords_pam_faillock_deny # promote to variable
   set_fact:
     var_accounts_passwords_pam_faillock_deny: !!str 5
+  tags:
+    - always
 
 - name: Lock Accounts After Failed Password Attempts - Check the presence of /etc/security/faillock.conf
     file
@@ -2348,6 +2349,8 @@
 - name: XCCDF Value var_accounts_passwords_pam_faillock_unlock_time # promote to variable
   set_fact:
     var_accounts_passwords_pam_faillock_unlock_time: !!str 900
+  tags:
+    - always
 
 - name: Set Lockout Time for Failed Password Attempts - Check the presence of /etc/security/faillock.conf
     file
