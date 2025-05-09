@@ -24,16 +24,13 @@
     - ptrace
     - umask
     - session_timeout
-    - password_policy
-    - sudo
-    - ssh
     - ipv6
     - nfs
     - postfix
     - journald
     - rsyslog
-    - motd
     - disable_mounting
+    - motd
 
   tasks:
     - name: update iscsi config setting
