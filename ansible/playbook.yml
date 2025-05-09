@@ -20,17 +20,20 @@
     - ch_collections.base.cloudwatch_agent_helper
     - ch_collections.base.auditd
     - ch_collections.security_banner.banner
-    - core_dumps
-    - ptrace
     - umask
+    - password_policy
+    - sudo
     - session_timeout
+    - ptrace
+    - core_dumps
+    - disable_mounting
+    - motd
+    - ssh
     - ipv6
     - nfs
     - postfix
     - journald
     - rsyslog
-    - disable_mounting
-    - motd
 
   tasks:
     - name: update iscsi config setting
