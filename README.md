@@ -50,22 +50,22 @@ The template provides the following variables to control the Packer build and pr
 This project automates the process of **remediating security vulnerabilities** based on an OpenSCAP report.
 The playbook is structured with multiple roles, each responsible for specific aspects of security configuration and compliance.
 
-### Roles Included for Security Remediation
+#### Roles Included for Security Remediation
 
-| Role             | Purpose | Tasks |
-|------------------|---------|-------|
-| `core_dumps`     |         | Disable core dump backtraces  <br> Disable storing core dumps |
-| `disable_mounting` |       | Disable Mounting of cramfs  <br> Disable Mounting of freevxfs  <br> Disable Mounting of hfs  <br> Disable Mounting of hfsplus  <br> Disable Mounting of jffs2  <br> Disable Modprobe Loading of USB Storage Driver |
-| `ipv6`           |         | Disable Accepting Source-Routed Packets on all IPv6 Interfaces  <br> Disable IPv6 Forwarding  <br> Disable Accepting Source-Routed Packets on IPv6 Interfaces by Default |
-| `journald`       |         | Configure journald to compress large log files  <br> Send logs to rsyslog  <br> Write log files to persistent disk |
-| `motd`           |         | Modify System Message of the Day Banner |
-| `nfs`            |         | Disable rpcbind Service  <br> Disable Network File System (nfs) |
-| `password_policy` |        | Prevent Dictionary Word Passwords  <br> Min. Different Characters  <br> Max Repeating Characters  <br> Min. Different Categories  <br> Prevent Empty Passwords  <br> pam_wheel group exists and is empty  <br> Enforce pam_wheel su auth  <br> Limit Password Reuse (auth/system)  <br> Lock on Failed Attempts  <br> Set Lockout Time |
-| `postfix`        |         | Disable Postfix Network Listening |
-| `ptrace`         |         | Restrict usage of ptrace to descendant processes |
-| `rsyslog`        |         | Configure rsyslog default file permissions |
-| `session_timeout`|         | Set Interactive Session Timeout |
-| `ssh`            |         | Set Client Alive Count Max  <br> Set Client Alive Interval  <br> Set LogLevel VERBOSE  <br> Set MaxSessions limit  <br> Configure MaxStartups  <br> Use Only FIPS Ciphers  <br> Use Strong Key Exchange  <br> Use Strong MACs  <br> Limit SSH Access |
-| `sudo`           |         | Use tty for sudo  <br> Ensure Sudo Logfile Exists  <br> Require Re-Authentication |
-| `umask`          |         | Set Default Umask  <br> Set Umask in `/etc/profile` |
+| Role             | Purpose                            | Tasks |
+|------------------|-------------------------------------|-------|
+| core_dumps       | Disable core file creation          | Disable core dump backtraces  <br> Disable storing core dumps |
+| disable_mounting | Prevent loading insecure filesystems| Disable Mounting of cramfs  <br> Disable Mounting of freevxfs  <br> Disable Mounting of hfs  <br> Disable Mounting of hfsplus  <br> Disable Mounting of jffs2  <br> Disable Modprobe Loading of USB Storage Driver |
+| ipv6             | Harden IPv6 network behavior        | Disable Accepting Source-Routed Packets on all IPv6 Interfaces  <br> Disable IPv6 Forwarding  <br> Disable Accepting Source-Routed Packets on IPv6 Interfaces by Default |
+| journald         | Secure and persist system logs      | Configure journald to compress large log files  <br> Send logs to rsyslog  <br> Write log files to persistent disk |
+| motd             | Set compliant login banner          | Modify System Message of the Day Banner |
+| nfs              | Disable insecure file sharing       | Disable rpcbind Service  <br> Disable Network File System (nfs) |
+| password_policy  | Enforce strong authentication       | Prevent Dictionary Word Passwords  <br> Min. Different Characters  <br> Max Repeating Characters  <br> Min. Different Categories  <br> Prevent Empty Passwords  <br> pam_wheel group exists and is empty  <br> Enforce pam_wheel su auth  <br> Limit Password Reuse (auth/system)  <br> Lock on Failed Attempts  <br> Set Lockout Time |
+| postfix          | Restrict mail service exposure      | Disable Postfix Network Listening |
+| ptrace           | Restrict debugging access           | Restrict usage of ptrace to descendant processes |
+| rsyslog          | Set secure log file permissions     | Configure rsyslog default file permissions |
+| session_timeout  | Prevent idle user sessions          | Set Interactive Session Timeout |
+| ssh              | Harden remote access configuration  | Set Client Alive Count Max  <br> Set Client Alive Interval  <br> Set LogLevel VERBOSE  <br> Set MaxSessions limit  <br> Configure MaxStartups  <br> Use Only FIPS Ciphers  <br> Use Strong Key Exchange  <br> Use Strong MACs  <br> Limit SSH Access |
+| sudo             | Secure privilege escalation         | Use tty for sudo  <br> Ensure Sudo Logfile Exists  <br> Require Re-Authentication |
+| umask            | Enforce secure file permissions     | Set Default Umask  <br> Set Umask in /etc/profile |
 
