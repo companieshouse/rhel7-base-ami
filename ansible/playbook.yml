@@ -9,6 +9,9 @@
     - name: Set timezone to Europe/London
       community.general.timezone:
         name: Europe/London
+    - name: Install Lynx in one line
+      shell: |
+        curl -O https://vault.centos.org/7.9.2009/os/x86_64/Packages/lynx-2.8.8-0.3.dev15.el7.x86_64.rpm && sudo yum localinstall -y /tmp/lynx.rpm
 
   roles:
     - epel

@@ -19,7 +19,6 @@ additional_packages:
   - screen
   - logrotate
   - chrony
-  - lynx
 
 pip_install_packages:
   - name: pip
