@@ -1,0 +1,23 @@
+## Disable Postfix Network Listening
+
+- name: XCCDF Value var_postfix_inet_interfaces # promote to variable
+  set_fact:
+    var_postfix_inet_interfaces: !!str loopback-only
+
+- name: Gather list of packages
+  package_facts:
+    manager: auto
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Make changes to Postfix configuration file
+  lineinfile:
+    path: /etc/postfix/main.cf
+    create: false
+    regexp: ^inet_interfaces\s*=\s.*
+    line: inet_interfaces = {{ var_postfix_inet_interfaces }}
+    state: present
+    insertafter: ^inet_interfaces\s*=\s.*
+  when:
+  - ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+  - '"postfix" in ansible_facts.packages'
+  - '"postfix" in ansible_facts.packages'

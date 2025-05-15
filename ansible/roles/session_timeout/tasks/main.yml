@@ -1,0 +1,33 @@
+## Set Interactive Session Timeout
+
+- name: XCCDF Value var_accounts_tmout # promote to variable
+  set_fact:
+    var_accounts_tmout: !!str 900
+
+- name: Correct any occurrence of TMOUT in /etc/bashrc
+  replace:
+    path: /etc/bashrc
+    regexp: ^[^#].*TMOUT=.*
+    replace: typeset -xr TMOUT={{ var_accounts_tmout }}
+  register: bashrc_replaced
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Correct any occurrence of TMOUT in /etc/profile
+  replace:
+    path: /etc/profile
+    regexp: ^[^#].*TMOUT=.*
+    replace: typeset -xr TMOUT={{ var_accounts_tmout }}
+  register: profile_replaced
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Set Interactive Session Timeout
+  lineinfile:
+    path: /etc/profile.d/tmout.sh
+    create: true
+    regexp: TMOUT=
+    line: typeset -xr TMOUT={{ var_accounts_tmout }}
+    state: present
+  when:
+  - ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+  - profile_replaced is defined and not profile_replaced.changed and bashrc_replaced
+    is defined and not bashrc_replaced.changed

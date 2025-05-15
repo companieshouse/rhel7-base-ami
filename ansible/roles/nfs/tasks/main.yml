@@ -1,0 +1,76 @@
+## Disable rpcbind Service
+
+- name: Disable rpcbind Service - Collect systemd Services Present in the System
+  ansible.builtin.command: systemctl -q list-unit-files --type service
+  register: service_exists
+  changed_when: false
+  failed_when: service_exists.rc not in [0, 1]
+  check_mode: false
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Disable rpcbind Service - Ensure "rpcbind.service" is Masked
+  ansible.builtin.systemd:
+    name: rpcbind.service
+    state: stopped
+    enabled: false
+    masked: true
+  when:
+  - ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+  - service_exists.stdout_lines is search("rpcbind.service",multiline=True)
+
+- name: Unit Socket Exists - rpcbind.socket
+  ansible.builtin.command: systemctl -q list-unit-files rpcbind.socket
+  register: socket_file_exists
+  changed_when: false
+  failed_when: socket_file_exists.rc not in [0, 1]
+  check_mode: false
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Disable socket rpcbind
+  ansible.builtin.systemd:
+    name: rpcbind.socket
+    enabled: 'no'
+    state: stopped
+    masked: 'yes'
+  when:
+  - ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+  - socket_file_exists.stdout_lines is search("rpcbind.socket",multiline=True)
+
+## Disable Network File System (nfs)
+
+- name: Disable Network File System (nfs) - Collect systemd Services Present in the
+    System
+  ansible.builtin.command: systemctl -q list-unit-files --type service
+  register: service_exists
+  changed_when: false
+  failed_when: service_exists.rc not in [0, 1]
+  check_mode: false
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Disable Network File System (nfs) - Ensure "nfs-server.service" is Masked
+  ansible.builtin.systemd:
+    name: nfs-server.service
+    state: stopped
+    enabled: false
+    masked: true
+  when:
+  - ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+  - service_exists.stdout_lines is search("nfs-server.service",multiline=True)
+
+- name: Unit Socket Exists - nfs-server.socket
+  ansible.builtin.command: systemctl -q list-unit-files nfs-server.socket
+  register: socket_file_exists
+  changed_when: false
+  failed_when: socket_file_exists.rc not in [0, 1]
+  check_mode: false
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Disable socket nfs-server
+  ansible.builtin.systemd:
+    name: nfs-server.socket
+    enabled: 'no'
+    state: stopped
+    masked: 'yes'
+  when:
+  - ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+  - socket_file_exists.stdout_lines is search("nfs-server.socket",multiline=True)

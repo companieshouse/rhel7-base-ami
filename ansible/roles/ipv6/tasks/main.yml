@@ -1,0 +1,107 @@
+## Disable Kernel Parameter for Accepting Source-Routed Packets on all IPv6 Interfaces
+
+- name: List /etc/sysctl.d/*.conf files
+  find:
+    paths:
+    - /etc/sysctl.d/
+    - /run/sysctl.d/
+    - /usr/local/lib/sysctl.d/
+    contains: ^[\s]*net.ipv6.conf.all.accept_source_route.*$
+    patterns: '*.conf'
+    file_type: any
+  register: find_sysctl_d
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Comment out any occurrences of net.ipv6.conf.all.accept_source_route from
+    config files
+  replace:
+    path: '{{ item.path }}'
+    regexp: ^[\s]*net.ipv6.conf.all.accept_source_route
+    replace: '#net.ipv6.conf.all.accept_source_route'
+  loop: '{{ find_sysctl_d.files }}'
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: XCCDF Value sysctl_net_ipv6_conf_all_accept_source_route_value # promote to variable
+  set_fact:
+    sysctl_net_ipv6_conf_all_accept_source_route_value: !!str 0
+
+- name: Ensure sysctl net.ipv6.conf.all.accept_source_route is set
+  sysctl:
+    name: net.ipv6.conf.all.accept_source_route
+    value: '{{ sysctl_net_ipv6_conf_all_accept_source_route_value }}'
+    sysctl_file: /etc/sysctl.conf
+    state: present
+    reload: true
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Disable Kernel Parameter for IPv6 Forwarding
+
+- name: List /etc/sysctl.d/*.conf files
+  find:
+    paths:
+    - /etc/sysctl.d/
+    - /run/sysctl.d/
+    - /usr/local/lib/sysctl.d/
+    contains: ^[\s]*net.ipv6.conf.all.forwarding.*$
+    patterns: '*.conf'
+    file_type: any
+  register: find_sysctl_d
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Comment out any occurrences of net.ipv6.conf.all.forwarding from config files
+  replace:
+    path: '{{ item.path }}'
+    regexp: ^[\s]*net.ipv6.conf.all.forwarding
+    replace: '#net.ipv6.conf.all.forwarding'
+  loop: '{{ find_sysctl_d.files }}'
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: XCCDF Value sysctl_net_ipv6_conf_all_forwarding_value # promote to variable
+  set_fact:
+    sysctl_net_ipv6_conf_all_forwarding_value: !!str 0
+
+- name: Ensure sysctl net.ipv6.conf.all.forwarding is set
+  sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: '{{ sysctl_net_ipv6_conf_all_forwarding_value }}'
+    sysctl_file: /etc/sysctl.conf
+    state: present
+    reload: true
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Disable Kernel Parameter for Accepting Source-Routed Packets on IPv6 Interfaces by Default
+
+- name: List /etc/sysctl.d/*.conf files
+  find:
+    paths:
+    - /etc/sysctl.d/
+    - /run/sysctl.d/
+    - /usr/local/lib/sysctl.d/
+    contains: ^[\s]*net.ipv6.conf.default.accept_source_route.*$
+    patterns: '*.conf'
+    file_type: any
+  register: find_sysctl_d
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: Comment out any occurrences of net.ipv6.conf.default.accept_source_route from
+    config files
+  replace:
+    path: '{{ item.path }}'
+    regexp: ^[\s]*net.ipv6.conf.default.accept_source_route
+    replace: '#net.ipv6.conf.default.accept_source_route'
+  loop: '{{ find_sysctl_d.files }}'
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+- name: XCCDF Value sysctl_net_ipv6_conf_default_accept_source_route_value # promote to variable
+  set_fact:
+    sysctl_net_ipv6_conf_default_accept_source_route_value: !!str 0
+
+- name: Ensure sysctl net.ipv6.conf.default.accept_source_route is set
+  sysctl:
+    name: net.ipv6.conf.default.accept_source_route
+    value: '{{ sysctl_net_ipv6_conf_default_accept_source_route_value }}'
+    sysctl_file: /etc/sysctl.conf
+    state: present
+    reload: true
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+

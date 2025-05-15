@@ -1,0 +1,311 @@
+## Set SSH Client Alive Count Max
+
+- name: XCCDF Value var_sshd_set_keepalive # promote to variable
+  set_fact:
+    var_sshd_set_keepalive: !!str 1
+
+- name: Set SSH Client Alive Count Max
+  block:
+
+  - name: Check for duplicate values
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*ClientAliveCountMax\s+
+      state: absent
+    check_mode: true
+    changed_when: false
+    register: dupes
+
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*ClientAliveCountMax\s+
+      state: absent
+    when: dupes.found is defined and dupes.found > 1
+
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*ClientAliveCountMax\s+
+      line: ClientAliveCountMax {{ var_sshd_set_keepalive }}
+      state: present
+      insertbefore: BOF
+      validate: /usr/sbin/sshd -t -f %s
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Set SSH Client Alive Interval
+
+- name: XCCDF Value sshd_idle_timeout_value # promote to variable
+  set_fact:
+    sshd_idle_timeout_value: !!str 300
+
+- name: Set SSH Client Alive Interval
+  block:
+
+  - name: Check for duplicate values
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*ClientAliveInterval\s+
+      state: absent
+    check_mode: true
+    changed_when: false
+    register: dupes
+
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*ClientAliveInterval\s+
+      state: absent
+    when: dupes.found is defined and dupes.found > 1
+
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*ClientAliveInterval\s+
+      line: ClientAliveInterval {{ sshd_idle_timeout_value }}
+      state: present
+      insertbefore: BOF
+      validate: /usr/sbin/sshd -t -f %s
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Set SSH Daemon LogLevel to VERBOSE
+
+- name: Set SSH Daemon LogLevel to VERBOSE
+  block:
+
+  - name: Check for duplicate values
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*LogLevel\s+
+      state: absent
+    check_mode: true
+    changed_when: false
+    register: dupes
+
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*LogLevel\s+
+      state: absent
+    when: dupes.found is defined and dupes.found > 1
+
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*LogLevel\s+
+      line: LogLevel VERBOSE
+      state: present
+      insertbefore: BOF
+      validate: /usr/sbin/sshd -t -f %s
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Set SSH MaxSessions limit
+
+- name: XCCDF Value var_sshd_max_sessions # promote to variable
+  set_fact:
+    var_sshd_max_sessions: !!str 10
+
+- name: Set SSH MaxSessions limit
+  block:
+
+  - name: Check for duplicate values
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*MaxSessions\s+
+      state: absent
+    check_mode: true
+    changed_when: false
+    register: dupes
+
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*MaxSessions\s+
+      state: absent
+    when: dupes.found is defined and dupes.found > 1
+
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*MaxSessions\s+
+      line: MaxSessions {{ var_sshd_max_sessions }}
+      state: present
+      insertbefore: BOF
+      validate: /usr/sbin/sshd -t -f %s
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Ensure SSH MaxStartups is configured
+
+- name: XCCDF Value var_sshd_set_maxstartups # promote to variable
+  set_fact:
+    var_sshd_set_maxstartups: !!str 10:30:60
+
+- name: Ensure SSH MaxStartups is configured
+  block:
+
+  - name: Check for duplicate values
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*MaxStartups\s+
+      state: absent
+    check_mode: true
+    changed_when: false
+    register: dupes
+
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*MaxStartups\s+
+      state: absent
+    when: dupes.found is defined and dupes.found > 1
+
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*MaxStartups\s+
+      line: MaxStartups {{ var_sshd_set_maxstartups }}
+      state: present
+      insertbefore: BOF
+      validate: /usr/sbin/sshd -t -f %s
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Use Only FIPS 140-2 Validated Ciphers
+
+- name: XCCDF Value sshd_approved_ciphers # promote to variable
+  set_fact:
+    sshd_approved_ciphers: !!str chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+
+- name: Use Only FIPS 140-2 Validated Ciphers
+  block:
+
+  - name: Check for duplicate values
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*Ciphers\s+
+      state: absent
+    check_mode: true
+    changed_when: false
+    register: dupes
+
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*Ciphers\s+
+      state: absent
+    when: dupes.found is defined and dupes.found > 1
+
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*Ciphers\s+
+      line: Ciphers {{ sshd_approved_ciphers }}
+      state: present
+      insertbefore: BOF
+      validate: /usr/sbin/sshd -t -f %s
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Use Only Strong Key Exchange algorithms
+
+- name: XCCDF Value sshd_strong_kex # promote to variable
+  set_fact:
+    sshd_strong_kex: !!str curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256
+
+- name: Use Only Strong Key Exchange algorithms
+  block:
+
+  - name: Check for duplicate values
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*KexAlgorithms\s+
+      state: absent
+    check_mode: true
+    changed_when: false
+    register: dupes
+
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*KexAlgorithms\s+
+      state: absent
+    when: dupes.found is defined and dupes.found > 1
+
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*KexAlgorithms\s+
+      line: KexAlgorithms {{ sshd_strong_kex }}
+      state: present
+      insertbefore: BOF
+      validate: /usr/sbin/sshd -t -f %s
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+## Use Only Strong MACs
+
+- name: XCCDF Value sshd_strong_macs # promote to variable
+  set_fact:
+    sshd_strong_macs: !!str hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256
+
+- name: Use Only Strong MACs
+  block:
+
+  - name: Check for duplicate values
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*MACs\s+
+      state: absent
+    check_mode: true
+    changed_when: false
+    register: dupes
+
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*MACs\s+
+      state: absent
+    when: dupes.found is defined and dupes.found > 1
+
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      regexp: (?i)^\s*MACs\s+
+      line: MACs {{ sshd_strong_macs }}
+      state: present
+      insertbefore: BOF
+      validate: /usr/sbin/sshd -t -f %s
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
+
+
+## Limit Users' SSH Access
+
+- name: Ensure AllowUsers is set to ec2-user and ssm-user in sshd_config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^AllowUsers'
+    line: 'AllowUsers ec2-user ssm-user'
+    insertafter: '#MaxSessions 10'
+    state: present
+    validate: /usr/sbin/sshd -t -f %s

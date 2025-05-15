@@ -1,0 +1,12 @@
+## Modify the System Message of the Day Banner - ensure correct banner
+- name: XCCDF Value motd_banner_text # promote to variable
+  set_fact:
+    motd_banner_text: !!str ^(Authorized[\s\n]+uses[\s\n]+only\.[\s\n]+All[\s\n]+activity[\s\n]+may[\s\n]+be[\s\n]+monitored[\s\n]+and[\s\n]+reported\.|^(?!.*(\\|fedora|rhel|sle|ubuntu)).*)$
+
+- name: Modify the System Message of the Day Banner - ensure correct banner
+  copy:
+    dest: /etc/motd
+    content: '{{ motd_banner_text | regex_replace("^\^(.*)\$$", "\1") | regex_replace("^\((.*\.)\|.*\)$",
+      "\1") | regex_replace("\[\\s\\n\]\+"," ") | regex_replace("\(\?:\[\\n\]\+\|\(\?:\\\\n\)\+\)",
+      "\n") | regex_replace("\\", "") | wordwrap() }}'
+  when: ansible_virtualization_type not in ["docker", "lxc", "openvz", "podman", "container"]
