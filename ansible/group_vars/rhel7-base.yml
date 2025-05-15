@@ -19,6 +19,8 @@ additional_packages:
   - screen
   - logrotate
   - chrony
+  - openscap-scanner
+  - scap-security-guide
 
 pip_install_packages:
   - name: pip
